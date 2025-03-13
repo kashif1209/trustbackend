@@ -1,0 +1,45 @@
+{
+  "name": "finsbury_backend2",
+  "version": "1.0.0",
+  "description": "Express API with TypeScript and AWS Serverless Framework",
+  "main": "dist/lambda.js",
+  "scripts": {
+    "start": "nodemon",
+    "build": "tsc",
+    "dev": "serverless offline start --stage dev --verbose",
+    "qa": "serverless offline start --stage qa --verbose",
+    "prod": "serverless offline start --stage prod --verbose",
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:qa": "serverless deploy --stage qa",
+    "deploy:prod": "serverless deploy --stage prod",
+    "remove:dev": "serverless remove --stage dev",
+    "remove:qa": "serverless remove --stage qa",
+    "remove:prod": "serverless remove --stage prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/uuid": "^10.0.0",
+    "aws-serverless-express": "^3.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "serverless-http": "^3.2.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/aws-serverless-express": "^3.3.10",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.10",
+    "nodemon": "^3.1.9",
+    "serverless": "^4.8.0",
+    "serverless-offline": "^14.4.0",
+    "serverless-plugin-typescript": "^2.1.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.2"
+  }
+}

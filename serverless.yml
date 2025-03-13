@@ -1,0 +1,63 @@
+service: finsbury-backend
+
+frameworkVersion: '4'
+
+# Stage-specific configurations
+custom:
+  # Environment variables for each stage
+  environment:
+    dev:
+      NODE_ENV: dev
+      LOG_LEVEL: DEBUG
+      API_VERSION: v1
+      CORS_ORIGIN: '*'
+    qa:
+      NODE_ENV: qa
+      LOG_LEVEL: INFO
+      API_VERSION: v1
+      CORS_ORIGIN: '*'
+    prod:
+      NODE_ENV: prod
+      LOG_LEVEL: ERROR
+      API_VERSION: v1
+      CORS_ORIGIN: https://your-production-domain.com
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  
+  # These environment variables will be available to your Lambda function
+  # They are set based on the stage (dev, qa, or prod)
+  environment: ${self:custom.environment.${self:provider.stage}}
+
+  # Add stage-specific tags
+  tags:
+    Environment: ${self:provider.stage}
+    Project: finsbury-backend
+
+build:
+  esbuild: false
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+
+package:
+  individually: true
+  excludeDevDependencies: true
+
+functions:
+  api:
+    handler: src/lambda.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: true
+    # Add stage-specific function configurations
+    environment:
+      STAGE_NAME: ${self:provider.stage}
+    # Function-specific logging configuration
+    logRetentionInDays: 14 
